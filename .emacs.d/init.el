@@ -2,13 +2,63 @@
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 (package-initialize)
 
-(eval-when-compile
-  (require 'use-package))
+;;(eval-when-compile
+;;  (require 'use-package))
+(setq use-package-enable-imenu-support t)
+(unless (package-installed-p 'use-package)
+  (package-install 'use-package))
+(require 'use-package)
+
 
 ;; maybe ensure by default?
 ;;(setq use-package-always-ensure t)
 
 ;; Copied mostly from blog.sumtypeofway.com/posts/emacs-config.html
+
+(use-package emacs
+	     :bind (("M-o" . other-window))
+	     :hook ((before-save . delete-trailing-whitespace))
+	     :config
+	     (setq custom-file "~/.emacs.d/init-custom.el")
+	     (setq-default major-mode 'org-mode)
+	     (when (file-readable-p custom-file)
+	       (load-file custom-file)))
+
+(use-package dired
+  :bind (:map dired-mode-map
+	      ("/" . dired-up-directory)))
+
+(use-package ivy
+  :ensure t
+  :diminish ivy-mode
+  :config
+  (ivy-mode))
+
+(use-package swiper
+  :ensure t
+  :bind (("C-s" . swiper)
+	 ("C-#" . swiper-thing-at-point)))
+
+(use-package counsel
+  :ensure t
+  :diminish counsel-mode
+  :init
+  (counsel-mode))
+
+(use-package imenu
+  :ensure t
+  :bind ("C-c C-," . imenu))
+
+(use-package forge
+  :ensure t
+  :after magit)
+
+(use-package multiple-cursors
+  :ensure t
+  :bind (("C->" . mc/mark-next-like-this)
+	 ("C-<" . mc/mark-previous-like-this)
+	 ("C-M->" . mc/mark-all-like-this)))
+
 (setq
  sentence-end-double-space nil
  ring-bell-function 'ignore
@@ -35,6 +85,20 @@
 (add-hook 'text-mode-hook #'hl-line-mode)
 (set-face-attribute 'hl-line nil :background "gray21")
 
+(use-package diminish
+  :ensure t)
+
+(use-package magit
+  :ensure t
+  :bind (("M-m" . magit-status)
+	 ("C-x g" . magit-list-repositories)))
+
+(use-package magit-delta
+  :if (executable-find "delta")
+  :ensure t
+  :disabled t
+  :hook (magit-mode . magit-delta-mode))
+
 (require 'recentf)
 (add-to-list 'recentf-exclude "\\elpa")
 
@@ -47,10 +111,13 @@
 (ignore-errors (set-frame-font "Menlo-10"))
 (use-package all-the-icons
   :ensure t)
-;; (use-package all-the-icons-dired
-;;   :ensure t
-;;   :after all-the-icons
-;;   :hook (dired-mode . all-the-icons-dired-mode))
+;; NOTE: if icons are broken, you may need to run
+;; `all-the-icons-install-fonts`
+
+(use-package all-the-icons-dired
+  :ensure t
+  :after all-the-icons
+  :hook (dired-mode . all-the-icons-dired-mode))
 
 ;; window should be fullscreen and maximized by default
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
@@ -131,7 +198,7 @@
 
 (use-package fish-mode
   :ensure t)
-  
+
 (use-package lsp-mode
   :init
   ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
@@ -142,18 +209,26 @@
          (lsp-mode . lsp-enable-which-key-integration))
   :commands lsp)
 
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages '(lsp-mode magit deadgrep use-package helpful ample-theme)))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(org-verbatim ((t (:inherit shadow :foreground "gold")))))
+(use-package lsp-ivy
+  :ensure t
+  :bind (:map lsp-mode-map
+	      ("c-c i" . lsp-ivy-workspace-symbol)))
+
+(use-package lsp-ui
+  :ensure t)
+
+(use-package prettier
+  :ensure t
+  :diminish prettier-mode
+  :hook ((typescript-mode . prettier-mode)))
+
+
+(use-package eshell
+  :ensure t
+  :bind ("C-c s" . eshell))
+
+(use-package ample-theme
+  :ensure t)
 
 ;; (load-theme 'ample t t)
 (load-theme 'ample-flat t t)
@@ -164,10 +239,11 @@
 
 ;; initial window setup
 (setq inhibit-startup-screen t)
-(defun my-default-window-setup ()
-  (split-window-right)
-  (other-window 1)
-  (find-file "C:/Users/bbaker/OneDrive - epic.com/Documents/notes/questions.org")
-  (other-window 1))
-  (find-file "C:/Users/bbaker/OneDrive - epic.com/Documents/notes/emacs1.org")
-(add-hook 'emacs-startup-hook #'my-default-window-setup)
+;;(defun my-default-window-setup ()
+;;  (split-window-right)
+;;  (other-window 1)
+;;  (find-file "C:/Users/bbaker/OneDrive - epic.com/Documents/notes/questions.org")
+;;  (other-window 1))
+;;  (find-file "C:/Users/bbaker/OneDrive - epic.com/Documents/notes/emacs1.org")
+;;(add-hook 'emacs-startup-hook #'my-default-window-setup)
+(desktop-save-mode 1)

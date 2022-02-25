@@ -3,4 +3,7 @@
 /.emacs.d/elpa
 /.emacs.d/server
 /.emacs.d/transient
+/.emacs.d/.emacs.desktop
+/.emacs.d/.emacs.desktop.lock
 /.lsp-session-*
+/.emacs.d/forge-database.sqlite
