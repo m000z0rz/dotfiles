@@ -9,20 +9,24 @@
   (package-install 'use-package))
 (require 'use-package)
 
-
 ;; maybe ensure by default?
 ;;(setq use-package-always-ensure t)
 
 ;; Copied mostly from blog.sumtypeofway.com/posts/emacs-config.html
 
+
+(use-package exec-path-from-shell
+  :ensure t
+  :init (exec-path-from-shell-initialize))
+
 (use-package emacs
-	     :bind (("M-o" . other-window))
-	     :hook ((before-save . delete-trailing-whitespace))
-	     :config
-	     (setq custom-file "~/.emacs.d/init-custom.el")
-	     (setq-default major-mode 'org-mode)
-	     (when (file-readable-p custom-file)
-	       (load-file custom-file)))
+  :bind (("M-o" . other-window))
+  :hook ((before-save . delete-trailing-whitespace))
+  :config
+  (setq custom-file "~/.emacs.d/init-custom.el")
+  (setq-default major-mode 'org-mode)
+  (when (file-readable-p custom-file)
+    (load-file custom-file)))
 
 (use-package dired
   :bind (:map dired-mode-map
@@ -69,8 +73,10 @@
  sentence-end-double-space nil
  ring-bell-function 'ignore
  use-dialog-box nil
+ save-interprogram-paste-before-kill t
  ;;mark-even-if-inactive nil
  kill-whole-line t ;; Let C-k delete the entire line
+ confirm-kill-processes nil
  )
 
 ;; always utf-8 by default
@@ -91,8 +97,24 @@
 (add-hook 'text-mode-hook #'hl-line-mode)
 (set-face-attribute 'hl-line nil :background "gray21")
 
+;; Move Where I Mean
+(use-package mwim
+  :ensure t ;; stuff
+  :bind (("C-a" . 'mwim-beginning)
+	 ("C-e" . 'mwim-end)))
+
 (use-package diminish
   :ensure t)
+
+(use-package eldoc
+  :ensure t
+  :diminish eldoc-mode)
+
+(use-package aggressive-indent
+  :ensure t
+  :diminish aggressive-indent-mode
+  :hook ((emacs-lisp-mode . aggressive-indent-mode)
+	 (typescript-mode . aggressive-indent-mode)))
 
 (use-package magit
   :ensure t
@@ -188,17 +210,29 @@
 (use-package which-key
   :ensure t
   :diminish which-key-mode
+  :bind (("C-h M" . which-key-show-major-mode))
   :config
   (which-key-mode))
 
 (use-package helpful
   :ensure t
   :bind (([remap describe-key] . helpful-key)
-	 ("C-c C-d" . #'helpful-at-point)))
+	 ("C-c C-d" . #'helpful-at-point)
+	 ("C-h f" . #'helpful-callable)
+	 ("C-h v" . #'helpful-variable)))
 
 (use-package deadgrep
   :ensure t
   :bind (("C-c h" . #'deadgrep)))
+
+(use-package tree-sitter
+  :ensure t
+  :hook ((js-mode . tree-sitter-hl-mode)
+	 (sh-mode . tree-sitter-hl-mode)
+	 (c-mode . tree-sitter-hl-mode)
+	 (typescript-mode . tree-sitter-hl-mode)))
+
+(use-package tree-sitter-langs)
 
 (use-package typescript-mode
   :ensure t)
@@ -214,6 +248,14 @@
 
 (use-package fish-mode
   :ensure t)
+
+(use-package projectile
+  :ensure t
+  :diminish projectile-mode
+  :config
+  (projectile-mode)
+  :bind (:map projectile-mode-map
+	      ("C-c p" . projectile-command-map)))
 
 (use-package lsp-mode
   :init
