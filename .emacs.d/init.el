@@ -232,7 +232,8 @@
 	 (c-mode . tree-sitter-hl-mode)
 	 (typescript-mode . tree-sitter-hl-mode)))
 
-(use-package tree-sitter-langs)
+(use-package tree-sitter-langs
+  :ensure t)
 
 (use-package typescript-mode
   :ensure t)

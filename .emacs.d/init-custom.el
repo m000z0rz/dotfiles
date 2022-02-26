@@ -7,7 +7,7 @@
  '(delete-selection-mode t)
  '(menu-bar-mode nil)
  '(package-selected-packages
-   '(tree-sitter mwim aggressive-indent which-key avy lsp-mode magit deadgrep use-package helpful ample-theme))
+   '(tree-sitter-langs tree-sitter mwim aggressive-indent which-key avy lsp-mode magit deadgrep use-package helpful ample-theme))
  '(scroll-bar-mode 'right))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
