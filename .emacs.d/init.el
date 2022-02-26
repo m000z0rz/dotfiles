@@ -28,6 +28,12 @@
   :bind (:map dired-mode-map
 	      ("/" . dired-up-directory)))
 
+(use-package avy
+  :ensure t
+  :bind (("C-:" . avy-goto-char)
+	 ("C-'" . avy-goto-char-2)
+	 ("M-g f" . avy-goto-line)))
+
 (use-package ivy
   :ensure t
   :diminish ivy-mode
@@ -163,7 +169,7 @@
 ;; and `package-pinned-packages`. Most users will not need or want to do this.
 ;;(add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/") t)
 
-;; maybe in the future, i don't know mcuha bout it yet
+;; maybe in the future, i don't know much about it yet
 ;; (use-package undo-tree
 ;;   :diminish
 ;;   :bind (("C-c _" . undo-tree-visualize))
@@ -171,14 +177,24 @@
 ;;   (global-undo-tree-mode +1)
 ;;   (unbind-key "M-_" undo-tree-map))
 
-  (use-package sudo-edit
+(use-package sudo-edit
     :ensure t)
-
 
 (use-package keychain-environment
   :ensure t
   :config
   (keychain-refresh-environment))
+
+(use-package which-key
+  :ensure t
+  :diminish which-key-mode
+  :config
+  (which-key-mode))
+
+(use-package helpful
+  :ensure t
+  :bind (([remap describe-key] . helpful-key)
+	 ("C-c C-d" . #'helpful-at-point)))
 
 (use-package deadgrep
   :ensure t
@@ -212,7 +228,7 @@
 (use-package lsp-ivy
   :ensure t
   :bind (:map lsp-mode-map
-	      ("c-c i" . lsp-ivy-workspace-symbol)))
+	      ("C-c i" . lsp-ivy-workspace-symbol)))
 
 (use-package lsp-ui
   :ensure t)

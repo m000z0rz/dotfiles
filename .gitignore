@@ -7,3 +7,4 @@
 /.emacs.d/.emacs.desktop.lock
 /.lsp-session-*
 /.emacs.d/forge-database.sqlite
+/.emacs.d/.lsp-session-v1
