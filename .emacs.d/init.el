@@ -348,15 +348,13 @@ string and a double-quoted string."
              (string-end (save-excursion
 						   (goto-char string-start)
 						   (forward-sexp)
-						   (point)))
-			 (old-quote (aref (buffer-substring string-start (1+ string-start)) 0))
-			 (new-quote (if (char-equal old-quote ?`) ?\" ?`)))
-        (goto-char string-start)
-        (delete-char 1)
-        (insert-char new-quote)
-        (goto-char (1- string-end))
-        (delete-char 1)
-        (insert-char new-quote)))))
+						   (1- (point))))
+             (old-quote (char-after string-start))
+			 (new-quote (if (eq old-quote ?`) ?\" ?`)))
+        (dolist (p (list string-start string-end))
+          (goto-char p)
+          (delete-char 1)
+          (insert-char new-quote))))))
 
 ;; if you've got a long mapping, the following will be more expressive
 (ignore
