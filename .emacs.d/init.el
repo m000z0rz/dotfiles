@@ -319,7 +319,7 @@ string and a double-quoted string."
     (let* ((syn (syntax-ppss))
 	   (in-string (nth 3 syn)))
       (cond ((not in-string)
-	     (message "Not in a string"))
+	     (user-error "Not in a string"))
 	    (t
 	     (let* (
 		    (string-start (nth 8 syn))
