@@ -356,6 +356,13 @@ string and a double-quoted string."
 	(delete-char 1)
 	(insert new-quote)))))
 
+;; if you've got a long mapping, the following will be more expressive
+(ignore
+ (let ((mapping '((?` . ?\")
+                  (?\" . ?`))))
+   (cdr (assq ?` mapping))))
+
+
 ;; bind M-` to toggle-typescript-interpolated-quote in typescript-mode
 (add-hook 'typescript-mode-hook
 	  (lambda ()
