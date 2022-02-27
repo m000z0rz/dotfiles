@@ -79,8 +79,7 @@
  save-interprogram-paste-before-kill t
  ;;mark-even-if-inactive nil
  kill-whole-line t ;; Let C-k delete the entire line
- confirm-kill-processes nil
- )
+ confirm-kill-processes nil)
 
 ;; always utf-8 by default
 (set-charset-priority 'unicode)
@@ -153,15 +152,15 @@
 
 (unbind-key "C-z") ;; suspend-frame
 
-(if ( version< "27.0" emacs-version ) ; )
-    (set-fontset-font "fontset-default" 'unicode "Apple Color Emoji" nil 'prepend)
-    (warn "This Emacs version is too old to properly support emoji."))
+(if (version< "27.0" emacs-version)
+	(set-fontset-font "fontset-default" 'unicode "Apple Color Emoji" nil 'prepend)
+  (warn "This Emacs version is too old to properly support emoji."))
 
 (ignore-errors (set-frame-font "Menlo-10"))
 (use-package all-the-icons
+  ;; NOTE: if icons are broken, you may need to run
+  ;; `all-the-icons-install-fonts`
   :ensure t)
-;; NOTE: if icons are broken, you may need to run
-;; `all-the-icons-install-fonts`
 
 (use-package all-the-icons-dired
   :ensure t
@@ -173,10 +172,9 @@
 
 ;; hide toolbars and junk
 (when (window-system)
-  (tool-bar-mode -1)
-  ;;  (scroll-bar-mode -1)
+  ;; (scroll-bar-mode -1)
   ;; (tooltip-mode -1)
-  )
+  (tool-bar-mode -1))
 
 ;; make it easier to tell which buffer is active
 (use-package dimmer
@@ -249,9 +247,9 @@
 (use-package tree-sitter
   :ensure t
   :hook ((js-mode . tree-sitter-hl-mode)
-	 (sh-mode . tree-sitter-hl-mode)
-	 (c-mode . tree-sitter-hl-mode)
-	 (typescript-mode . tree-sitter-hl-mode)))
+		 (sh-mode . tree-sitter-hl-mode)
+		 (c-mode . tree-sitter-hl-mode)
+		 (typescript-mode . tree-sitter-hl-mode)))
 
 (use-package tree-sitter-langs
   :ensure t)
@@ -330,7 +328,6 @@
 ;;  (find-file "C:/Users/bbaker/OneDrive - epic.com/Documents/notes/emacs1.org")
 ;;(add-hook 'emacs-startup-hook #'my-default-window-setup)
 (desktop-save-mode 1)
-
 
 ;; sort of adapted from
 ;; https://stackoverflow.com/questions/15580913/is-there-a-way-to-toggle-a-string-between-single-and-double-quotes-in-emacs
