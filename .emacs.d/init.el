@@ -342,21 +342,21 @@ string and a double-quoted string."
   (save-excursion
     (let* ((syn (syntax-ppss))
 	   (in-string (nth 3 syn)))
-      (cond ((not in-string)
-	     (user-error "Not in a string"))
-	    (t
-	     (let* (
-		    (string-start (nth 8 syn))
-		    (old-quote (aref (buffer-substring string-start (+ string-start 1)) 0 ))
-		    (new-quote (if (char-equal old-quote ?`) ?\" ?`)))
-	       (goto-char string-start)
-	       (forward-sexp)
-	       (setq string-end (point))
-	       (delete-char -1)
-	       (insert new-quote)
-	       (goto-char string-start)
-	       (delete-char 1)
-	       (insert new-quote)))))))
+      (when (not in-string)
+        (user-error "Not in a string"))
+      (let* (
+	     (string-start (nth 8 syn))
+	     (old-quote (aref (buffer-substring string-start (+ string-start 1)) 0 ))
+	     (new-quote (if (char-equal old-quote ?`) ?\" ?`)))
+	(goto-char string-start)
+	(forward-sexp)
+	(setq string-end (point))
+	(delete-char -1)
+	(insert new-quote)
+	(goto-char string-start)
+	(delete-char 1)
+	(insert new-quote)
+	))))
 
 ;; bind M-` to toggle-typescript-interpolated-quote in typescript-mode
 (add-hook 'typescript-mode-hook
