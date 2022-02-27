@@ -306,3 +306,33 @@
 ;;  (find-file "C:/Users/bbaker/OneDrive - epic.com/Documents/notes/emacs1.org")
 ;;(add-hook 'emacs-startup-hook #'my-default-window-setup)
 (desktop-save-mode 1)
+
+
+;; sort of adapted from ;; https://stackoverflow.com/questions/15580913/is-there-a-way-to-toggle-a-string-between-single-and-double-quotes-in-emacs
+(defun toggle-typescript-interpolated-quote ()
+  "Toggle the string containing point between an interpolated string and a double-quoted string."
+  (interactive)
+  (save-excursion
+    (let* ((syn (syntax-ppss))
+	   (in-string (nth 3 syn)))
+      (cond ((not in-string)
+	     (message "Not in a string"))
+	    (t
+	     (let* (
+		    (string-start (nth 8 syn))
+		    (old-quote (aref (buffer-substring string-start (+ string-start 1)) 0 ))
+		    (new-quote (if (char-equal old-quote ?`) ?\" ?`)))
+	       (goto-char string-start)
+	       (forward-sexp)
+	       (setq string-end (point))
+	       (delete-char -1)
+	       (insert new-quote)
+	       (goto-char string-start)
+	       (delete-char 1)
+	       (insert new-quote)
+	       ))))))
+
+;; bind M-` to toggle-typescript-interpolated-quote in typescript-mode
+(add-hook 'typescript-mode-hook
+	  (lambda ()
+	    (local-set-key (kbd "M-`") 'toggle-typescript-interpolated-quote)))
