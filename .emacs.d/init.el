@@ -308,9 +308,12 @@
 (desktop-save-mode 1)
 
 
-;; sort of adapted from ;; https://stackoverflow.com/questions/15580913/is-there-a-way-to-toggle-a-string-between-single-and-double-quotes-in-emacs
+;; sort of adapted from
+;; https://stackoverflow.com/questions/15580913/is-there-a-way-to-toggle-a-string-between-single-and-double-quotes-in-emacs
+;; TODO handle escaping "/`
 (defun toggle-typescript-interpolated-quote ()
-  "Toggle the string containing point between an interpolated string and a double-quoted string."
+  "Toggle the string containing point between an interpolated
+string and a double-quoted string."
   (interactive)
   (save-excursion
     (let* ((syn (syntax-ppss))
@@ -329,10 +332,19 @@
 	       (insert new-quote)
 	       (goto-char string-start)
 	       (delete-char 1)
-	       (insert new-quote)
-	       ))))))
+	       (insert new-quote)))))))
 
 ;; bind M-` to toggle-typescript-interpolated-quote in typescript-mode
 (add-hook 'typescript-mode-hook
 	  (lambda ()
 	    (local-set-key (kbd "M-`") 'toggle-typescript-interpolated-quote)))
+
+;; https://blog.sumtypeofway.com/posts/emacs-config.html
+(defun pt/eol-then-newline ()
+  "Go to end of line, then newline-and-indent."
+  (interactive)
+  (move-end-of-line nil)
+  (newline-and-indent))
+
+;; replace C-M-o which previously was just newline whil ekeeping point in place
+(bind-key "C-M-<return>" #'pt/eol-then-newline)
