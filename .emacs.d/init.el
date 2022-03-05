@@ -349,5 +349,18 @@ string and a double-quoted string."
   (move-end-of-line nil)
   (newline-and-indent))
 
-;; replace C-M-o which previously was just newline whil ekeeping point in place
+;; replace C-M-o which previously was just newline while keeping point in place
 (bind-key "C-M-<return>" #'pt/eol-then-newline)
+
+;; clean up whitespace when killing lines
+;;(defadvice kill-line (after kill-line-cleanup-whitespace activate compile)
+;;  "cleanup whitespace on kill-line"
+;;  (if (not (bolp))
+;;    (delete-region (point) (progn (skip-chars-forward " \t") (point)))))
+
+(defun kill-line--cleanup-whitespace (&optional arg)
+  "Cleanup whitespace after killing lines"
+  (if (not (bolp))
+	  (delete-region (point) (progn (skip-chars-forward " \t") (point)))))
+
+(advice-add 'kill-line :after #'kill-line--cleanup-whitespace)
