@@ -24,9 +24,12 @@
   :hook ((before-save . delete-trailing-whitespace))
   :config
   (setq custom-file "~/.emacs.d/init-custom.el")
-  (setq-default major-mode 'org-mode)
+  (setq-default major-mode 'org-mode
+		tab-width 4)
   (when (file-readable-p custom-file)
     (load-file custom-file)))
+
+(global-auto-revert-mode t)
 
 (use-package dired
   :bind (:map dired-mode-map
@@ -113,8 +116,8 @@
 (use-package aggressive-indent
   :ensure t
   :diminish aggressive-indent-mode
-  :hook ((emacs-lisp-mode . aggressive-indent-mode)
-	 (typescript-mode . aggressive-indent-mode)))
+  :hook ((emacs-lisp-mode . aggressive-indent-mode)))
+	 ;;(typescript-mode . aggressive-indent-mode)))
 
 (use-package magit
   :ensure t

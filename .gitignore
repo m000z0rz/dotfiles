@@ -9,3 +9,7 @@
 /.emacs.d/forge-database.sqlite
 /.emacs.d/.lsp-session-v1
 /.emacs.d/bookmarks
+/.emacs.d/.mc-lists.el
+/.emacs.d/eshell
+/.emacs.d/projectile-bookmarks.eld
+/.emacs.d/recentf
