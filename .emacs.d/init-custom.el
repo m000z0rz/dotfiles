@@ -7,7 +7,7 @@
  '(delete-selection-mode t)
  '(menu-bar-mode nil)
  '(package-selected-packages
-   '(tree-sitter-langs tree-sitter mwim aggressive-indent which-key avy lsp-mode magit deadgrep use-package helpful ample-theme))
+   '(company company-box treemacs-all-the-icons treemacs-magit lsp-treemacs treemacs tree-sitter-langs tree-sitter mwim aggressive-indent which-key avy lsp-mode magit deadgrep use-package helpful ample-theme))
  '(scroll-bar-mode 'right))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

@@ -117,12 +117,30 @@
   :ensure t
   :diminish aggressive-indent-mode
   :hook ((emacs-lisp-mode . aggressive-indent-mode)))
-	 ;;(typescript-mode . aggressive-indent-mode)))
+;;(typescript-mode . aggressive-indent-mode)))
+
+(use-package company
+  :ensure t
+  :after lsp-mode
+  :diminish company-mode
+  :hook ((emacs-lisp-mode . company-mode))
+  :bind (:map company-active-map
+			  ("<tab>" . company-complete-selection)
+			  :map lsp-mode-map
+			  ("<tab>" . company-indent-or-complete-common)))
+
+
+(use-package company-box
+  :ensure t
+  :after company
+  :diminish company-box-mode
+  :hook (company-mode . company-box-mode))
+
 
 (use-package magit
   :ensure t
   :bind (("M-m" . magit-status)
-	 ("C-x g" . magit-list-repositories)))
+		 ("C-x g" . magit-list-repositories)))
 
 (use-package magit-delta
   :if (executable-find "delta")
@@ -271,10 +289,13 @@
          (lsp-mode . lsp-enable-which-key-integration))
   :commands lsp)
 
+(use-package lsp-treemacs
+  :ensure t)
+
 (use-package lsp-ivy
   :ensure t
   :bind (:map lsp-mode-map
-	      ("C-c i" . lsp-ivy-workspace-symbol)))
+			  ("C-c i" . lsp-ivy-workspace-symbol)))
 
 (use-package lsp-ui
   :ensure t)
