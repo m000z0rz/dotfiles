@@ -311,6 +311,11 @@
 (use-package ample-theme
   :ensure t)
 
+(use-package platformio-mode
+  :hook (c++-mode . (lambda ()
+		      (lsp-deferred)
+		      (platformio-conditionally-enable)))) ;; should enable only if a platformio.ini is present
+
 ;; (load-theme 'ample t t)
 (load-theme 'ample-flat t t)
 ;; (load-theme 'ample-light t t)
