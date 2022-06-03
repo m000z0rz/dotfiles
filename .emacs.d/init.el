@@ -311,10 +311,14 @@
 (use-package ample-theme
   :ensure t)
 
+;; for completion with platformio-mode?
+(use-package ccls
+  :ensure t)
+
 (use-package platformio-mode
   :hook (c++-mode . (lambda ()
-		      (lsp-deferred)
-		      (platformio-conditionally-enable)))) ;; should enable only if a platformio.ini is present
+					  (lsp-deferred)
+					  (platformio-conditionally-enable)))) ;; should enable only if a platformio.ini is present
 
 ;; (load-theme 'ample t t)
 (load-theme 'ample-flat t t)
