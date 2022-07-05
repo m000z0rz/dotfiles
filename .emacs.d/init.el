@@ -300,8 +300,8 @@
 
 (use-package prettier
   :ensure t
-  :diminish prettier-mode
-  :hook ((typescript-mode . prettier-mode)))
+  :diminish prettier-mode)
+;; :hook ((typescript-mode . prettier-mode)))
 
 
 (use-package eshell
