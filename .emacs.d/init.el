@@ -167,9 +167,6 @@
   :after all-the-icons
   :hook (dired-mode . all-the-icons-dired-mode))
 
-;; window should be fullscreen and maximized by default
-(add-to-list 'default-frame-alist '(fullscreen . maximized))
-
 ;; hide toolbars and junk
 (when (window-system)
   ;; (scroll-bar-mode -1)
