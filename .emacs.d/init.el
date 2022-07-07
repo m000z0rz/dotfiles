@@ -241,16 +241,6 @@
   :ensure t
   :bind (("C-c h" . #'deadgrep)))
 
-(use-package tree-sitter
-  :ensure t
-  :hook ((js-mode . tree-sitter-hl-mode)
-		 (sh-mode . tree-sitter-hl-mode)
-		 (c-mode . tree-sitter-hl-mode)
-		 (typescript-mode . tree-sitter-hl-mode)))
-
-(use-package tree-sitter-langs
-  :ensure t)
-
 (use-package typescript-mode
   :ensure t)
 
@@ -294,6 +284,16 @@
 			  ("C-c i" . lsp-ivy-workspace-symbol)))
 
 (use-package lsp-ui
+  :ensure t)
+
+(use-package tree-sitter
+  :ensure t
+  :hook ((js-mode . tree-sitter-hl-mode)
+		 (sh-mode . tree-sitter-hl-mode)
+		 (c-mode . tree-sitter-hl-mode)
+		 (typescript-mode . tree-sitter-hl-mode)))
+
+(use-package tree-sitter-langs
   :ensure t)
 
 (use-package prettier
