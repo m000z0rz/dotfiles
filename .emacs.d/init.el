@@ -322,7 +322,7 @@
 (load-theme 'ample-flat t t)
 ;; (load-theme 'ample-light t t)
 (enable-theme 'ample-flat)
-
+(set-mouse-color "white")
 
 
 ;; initial window setup
