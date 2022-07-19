@@ -334,7 +334,7 @@
 ;;  (other-window 1))
 ;;  (find-file "C:/Users/bbaker/OneDrive - epic.com/Documents/notes/emacs1.org")
 ;;(add-hook 'emacs-startup-hook #'my-default-window-setup)
-(desktop-save-mode 1)
+(desktop-save-mode 0)
 
 ;; sort of adapted from
 ;; https://stackoverflow.com/questions/15580913/is-there-a-way-to-toggle-a-string-between-single-and-double-quotes-in-emacs
