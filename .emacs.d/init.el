@@ -276,6 +276,7 @@
   :commands lsp)
 
 (use-package lsp-treemacs
+  :disabled t
   :ensure t)
 
 (use-package lsp-ivy
@@ -311,9 +312,11 @@
 
 ;; for completion with platformio-mode?
 (use-package ccls
+  :disabled t
   :ensure t)
 
 (use-package platformio-mode
+	:if (executable-find "pio")
   :hook (c++-mode . (lambda ()
 					  (lsp-deferred)
 					  (platformio-conditionally-enable)))) ;; should enable only if a platformio.ini is present
