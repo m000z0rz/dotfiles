@@ -25,7 +25,7 @@
   :config
   (setq custom-file "~/.emacs.d/init-custom.el")
   (setq-default major-mode 'org-mode
-		tab-width 4)
+				tab-width 2)
   (when (file-readable-p custom-file)
     (load-file custom-file)))
 
@@ -299,8 +299,8 @@
 
 (use-package prettier
   :ensure t
-  :diminish prettier-mode)
-;; :hook ((typescript-mode . prettier-mode)))
+  :diminish prettier-mode
+	:hook ((typescript-mode . prettier-mode)))
 
 
 (use-package eshell
