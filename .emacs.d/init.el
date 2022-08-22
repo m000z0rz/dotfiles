@@ -31,6 +31,13 @@
 
 (global-auto-revert-mode t)
 
+(use-package buffer-move
+	:ensure t
+	:bind (("C-x C-m l" . buf-move-right))
+	("C-x C-m j" . buf-move-left)
+	("C-x C-m i" . buf-move-up)
+	("C-x C-m d" . buf-move-down))
+
 (use-package dired
   :bind (:map dired-mode-map
 	      ("/" . dired-up-directory)))
