@@ -292,7 +292,11 @@
 			  ("C-c i" . lsp-ivy-workspace-symbol)))
 
 (use-package lsp-ui
-  :ensure t)
+  :ensure t
+	:custom
+	(lsp-ui-doc-position 'at-point "Display glance doc (C-c l h g) near point"))
+
+
 
 (use-package tree-sitter
   :ensure t
