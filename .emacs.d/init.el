@@ -25,7 +25,7 @@
   :config
   (setq custom-file "~/.emacs.d/init-custom.el")
   (setq-default major-mode 'org-mode
-				tab-width 2)
+								tab-width 2)
   (when (file-readable-p custom-file)
     (load-file custom-file)))
 
@@ -39,14 +39,14 @@
 	("C-x C-m d" . buf-move-down))
 
 (use-package dired
-  :bind (:map dired-mode-map
-	      ("/" . dired-up-directory)))
+	:bind (:map dired-mode-map
+							("/" . dired-up-directory)))
 
 (use-package avy
   :ensure t
   :bind (("C-:" . avy-goto-char)
-	 ("C-'" . avy-goto-char-2)
-	 ("M-g f" . avy-goto-line)))
+				 ("C-'" . avy-goto-char-2)
+				 ("M-g f" . avy-goto-line)))
 
 (use-package ivy
   :ensure t
@@ -57,7 +57,7 @@
 (use-package swiper
   :ensure t
   :bind (("C-s" . swiper)
-	 ("C-#" . swiper-thing-at-point)))
+				 ("C-#" . swiper-thing-at-point)))
 
 (use-package counsel
   :ensure t
@@ -76,8 +76,8 @@
 (use-package multiple-cursors
   :ensure t
   :bind (("C->" . mc/mark-next-like-this)
-	 ("C-<" . mc/mark-previous-like-this)
-	 ("C-M->" . mc/mark-all-like-this)))
+				 ("C-<" . mc/mark-previous-like-this)
+				 ("C-M->" . mc/mark-all-like-this)))
 
 (setq
  sentence-end-double-space nil
@@ -110,7 +110,7 @@
 (use-package mwim
   :ensure t ;; stuff
   :bind (("C-a" . 'mwim-beginning)
-	 ("C-e" . 'mwim-end)))
+				 ("C-e" . 'mwim-end)))
 
 (use-package diminish
   :ensure t)
@@ -131,9 +131,9 @@
   :diminish company-mode
   :hook ((emacs-lisp-mode . company-mode))
   :bind (:map company-active-map
-			  ("<tab>" . company-complete-selection)
-			  :map lsp-mode-map
-			  ("<tab>" . company-indent-or-complete-common)))
+							("<tab>" . company-complete-selection)
+							:map lsp-mode-map
+							("<tab>" . company-indent-or-complete-common)))
 
 
 (use-package company-box
@@ -146,7 +146,7 @@
 (use-package magit
   :ensure t
   :bind (("M-m" . magit-status)
-		 ("C-x g" . magit-list-repositories)))
+				 ("C-x g" . magit-list-repositories)))
 
 (use-package magit-delta
   :if (executable-find "delta")
@@ -160,7 +160,7 @@
 (unbind-key "C-z") ;; suspend-frame
 
 (if (version< "27.0" emacs-version)
-	(set-fontset-font "fontset-default" 'unicode "Apple Color Emoji" nil 'prepend)
+		(set-fontset-font "fontset-default" 'unicode "Apple Color Emoji" nil 'prepend)
   (warn "This Emacs version is too old to properly support emoji."))
 
 (ignore-errors (set-frame-font "Menlo-10"))
@@ -223,7 +223,7 @@
 ;;   (unbind-key "M-_" undo-tree-map))
 
 (use-package sudo-edit
-    :ensure t)
+  :ensure t)
 
 (use-package keychain-environment
   :ensure t
@@ -240,9 +240,9 @@
 (use-package helpful
   :ensure t
   :bind (([remap describe-key] . helpful-key)
-	 ("C-c C-d" . #'helpful-at-point)
-	 ("C-h f" . #'helpful-callable)
-	 ("C-h v" . #'helpful-variable)))
+				 ("C-c C-d" . #'helpful-at-point)
+				 ("C-h f" . #'helpful-callable)
+				 ("C-h v" . #'helpful-variable)))
 
 (use-package deadgrep
   :ensure t
@@ -269,7 +269,7 @@
   :config
   (projectile-mode)
   :bind (:map projectile-mode-map
-	      ("C-c p" . projectile-command-map)))
+							("C-c p" . projectile-command-map)))
 
 (use-package lsp-mode
   :ensure t
@@ -289,7 +289,7 @@
 (use-package lsp-ivy
   :ensure t
   :bind (:map lsp-mode-map
-			  ("C-c i" . lsp-ivy-workspace-symbol)))
+							("C-c i" . lsp-ivy-workspace-symbol)))
 
 (use-package lsp-ui
   :ensure t
@@ -301,9 +301,9 @@
 (use-package tree-sitter
   :ensure t
   :hook ((js-mode . tree-sitter-hl-mode)
-		 (sh-mode . tree-sitter-hl-mode)
-		 (c-mode . tree-sitter-hl-mode)
-		 (typescript-mode . tree-sitter-hl-mode)))
+				 (sh-mode . tree-sitter-hl-mode)
+				 (c-mode . tree-sitter-hl-mode)
+				 (typescript-mode . tree-sitter-hl-mode)))
 
 (use-package tree-sitter-langs
   :ensure t)
@@ -329,8 +329,8 @@
 (use-package platformio-mode
 	:if (executable-find "pio")
   :hook (c++-mode . (lambda ()
-					  (lsp-deferred)
-					  (platformio-conditionally-enable)))) ;; should enable only if a platformio.ini is present
+											(lsp-deferred)
+											(platformio-conditionally-enable)))) ;; should enable only if a platformio.ini is present
 
 ;; (load-theme 'ample t t)
 (load-theme 'ample-flat t t)
@@ -359,16 +359,16 @@ string and a double-quoted string."
   (interactive)
   (save-excursion
     (let* ((syn (syntax-ppss))
-		   (in-string (nth 3 syn)))
+					 (in-string (nth 3 syn)))
       (when (not in-string)
         (user-error "Not in a string"))
       (let* ((string-start (nth 8 syn))
              (string-end (save-excursion
-						   (goto-char string-start)
-						   (forward-sexp)
-						   (1- (point))))
+													 (goto-char string-start)
+													 (forward-sexp)
+													 (1- (point))))
              (old-quote (char-after string-start))
-			 (new-quote (if (eq old-quote ?`) ?\" ?`)))
+						 (new-quote (if (eq old-quote ?`) ?\" ?`)))
         (dolist (p (list string-start string-end))
           (goto-char p)
           (delete-char 1)
@@ -383,8 +383,8 @@ string and a double-quoted string."
 
 ;; bind M-` to toggle-typescript-interpolated-quote in typescript-mode
 (add-hook 'typescript-mode-hook
-		  (lambda ()
-			(local-set-key (kbd "M-`") 'toggle-typescript-interpolated-quote)))
+					(lambda ()
+						(local-set-key (kbd "M-`") 'toggle-typescript-interpolated-quote)))
 
 ;; https://blog.sumtypeofway.com/posts/emacs-config.html
 (defun pt/eol-then-newline ()
@@ -408,6 +408,6 @@ string and a double-quoted string."
 (defun kill-line--cleanup-whitespace (&optional arg)
   "Cleanup whitespace after killing lines"
   (if (not (bolp))
-	  (delete-region (point) (progn (skip-chars-forward " \t") (point)))))
+			(delete-region (point) (progn (skip-chars-forward " \t") (point)))))
 
 (advice-add 'kill-line :after #'kill-line--cleanup-whitespace)
