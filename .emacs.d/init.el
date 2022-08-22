@@ -396,6 +396,9 @@ string and a double-quoted string."
 ;; replace C-M-o which previously was just newline while keeping point in place
 (bind-key "C-M-<return>" #'pt/eol-then-newline)
 
+;; I always seem to hold C too long and type C-h C-. instead of just C-h .
+(bind-key "C-h C-." 'display-local-help)
+
 ;; clean up whitespace when killing lines
 ;;(defadvice kill-line (after kill-line-cleanup-whitespace activate compile)
 ;;  "cleanup whitespace on kill-line"
