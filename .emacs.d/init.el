@@ -418,3 +418,5 @@ string and a double-quoted string."
 			(delete-region (point) (progn (skip-chars-forward " \t") (point)))))
 
 (advice-add 'kill-line :after #'kill-line--cleanup-whitespace)
+
+(load "~/.emacs.d/magit-pipelines")
