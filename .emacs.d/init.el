@@ -29,6 +29,13 @@
   (when (file-readable-p custom-file)
     (load-file custom-file)))
 
+(setq backup-directory-alist '(("." . "~/.emacs.d/backup"))
+			backup-by-copying t ; Don't de-link hard links
+			version-control t ; Use version numbers on backups
+			delete-old-versions t ; Automatically delete excess backups
+			kept-new-version 20
+			kept-old-version 5);
+
 (global-auto-revert-mode t)
 
 (use-package buffer-move
