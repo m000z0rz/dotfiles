@@ -393,6 +393,14 @@ string and a double-quoted string."
 					(lambda ()
 						(local-set-key (kbd "M-`") 'toggle-typescript-interpolated-quote)))
 
+;; like indent-region, but for everything in the buffer
+(defun indent-all ()
+	(interactive)
+	(indent-region 0 (buffer-size)))
+
+(bind-key "C-M-/" 'indent-all)
+
+
 ;; https://blog.sumtypeofway.com/posts/emacs-config.html
 (defun pt/eol-then-newline ()
   "Go to end of line, then newline-and-indent."
