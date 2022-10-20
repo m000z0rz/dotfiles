@@ -153,7 +153,8 @@
 (use-package magit
   :ensure t
   :bind (("M-m" . magit-status)
-				 ("C-x g" . magit-list-repositories)))
+				 ("C-x g" . magit-list-repositories))
+	:custom (magit-diff-refine-hunk t))
 
 (use-package magit-delta
   :if (executable-find "delta")
