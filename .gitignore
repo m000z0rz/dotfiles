@@ -13,3 +13,4 @@
 /.emacs.d/eshell
 /.emacs.d/projectile-bookmarks.eld
 /.emacs.d/recentf
+/.emacs.d/init-custom.el
