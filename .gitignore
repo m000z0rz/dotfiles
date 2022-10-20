@@ -14,3 +14,5 @@
 /.emacs.d/projectile-bookmarks.eld
 /.emacs.d/recentf
 /.emacs.d/init-custom.el
+/.emacs.d/backup
+/.emacs.d/url
