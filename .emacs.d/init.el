@@ -428,4 +428,42 @@ string and a double-quoted string."
 
 (advice-add 'kill-line :after #'kill-line--cleanup-whitespace)
 
+(require 'smerge-mode)
+
+(defhydra hydra-smerge
+	(:color red :hint nil
+					:pre (smerge-mode 1))
+	"
+^Move^   ^Keep^   ^Diff^
+---------------------------
+_n_ext   _t_op    _<_: base-mine
+_p_rev   _b_ot    _=_: mine-other
+_/_undo  _a_ll    _>_: base-other
+^ ^      _o_ther
+^ ^      _RET_: current
+
+_C_ombine this hunk with next
+Drop down into _E_diff
+Attempt to auto-_r_esolve
+"
+	("RET" smerge-keep-current)
+	("C" smerge-combine-with-next)
+	("E" smerge-ediff)
+	("a" smerge-keep-all)
+	("b" smerge-keep-lower)
+	("t" smerge-keep-upper)
+	("n" smerge-next)
+	("o" smerge-keep-other)
+	("p" smerge-prev)
+	("r" smerge-resolve)
+	("<" smerge-diff-base-mine)
+	("=" smerge-diff-mine-other)
+	(">" smerge-diff-base-other)
+	("/" undo)
+	("q" nil :color blue))
+
+(bind-key "C-=" #'hydra-smerge/body 'smerge-mode-map)
+
+
+
 (load "~/.emacs.d/magit-pipelines")
