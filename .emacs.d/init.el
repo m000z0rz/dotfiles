@@ -430,6 +430,10 @@ string and a double-quoted string."
 
 (require 'smerge-mode)
 
+(use-package hydra
+	:ensure t)
+
+
 (defhydra hydra-smerge
 	(:color red :hint nil
 					:pre (smerge-mode 1))
