@@ -464,13 +464,15 @@ Attempt to auto-_r_esolve
 
 (bind-key "C-=" #'hydra-smerge/body 'smerge-mode-map)
 
-(use-package emc2
-	:load-path "~/.emacs.d/git-packages/emc2.el")
+(when (file-exists-p "~/.emacs.d/git-packages/emc2.el")
+	(use-package emc2
+		:load-path "~/.emacs.d/git-packages/emc2.el"))
 
-(use-package magit-etk
-	:load-path "~/.emacs.d/git-packages/magit-etk"
-	:bind (:map magit-mode-map
-							("C-c e" . magit-etk-dispatch)))
+(when (file-exists-p "~/.emacs.d/git-packages/magit-etk")
+	(use-package magit-etk
+		:load-path "~/.emacs.d/git-packages/magit-etk"
+		:bind (:map magit-mode-map
+								("C-c e" . magit-etk-dispatch))))
 
 (load "~/.emacs.d/magit-pipelines")
 
