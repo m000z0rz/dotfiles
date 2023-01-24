@@ -162,6 +162,10 @@
   :disabled t
   :hook (magit-mode . magit-delta-mode))
 
+(use-package git-modes
+	:ensure t
+	:mode ("/\\.emc2ignore\\'" . gitignore-mode))
+
 (require 'recentf)
 (add-to-list 'recentf-exclude "\\elpa")
 
