@@ -352,6 +352,11 @@
 											(lsp-deferred)
 											(platformio-conditionally-enable)))) ;; should enable only if a platformio.ini is present
 
+(use-package flycheck
+	:ensure t
+	:config
+	(global-flycheck-mode))
+
 ;; (load-theme 'ample t t)
 (load-theme 'ample-flat t t)
 ;; (load-theme 'ample-light t t)
@@ -448,7 +453,6 @@ string and a double-quoted string."
 (use-package hydra
 	:ensure t)
 
-
 (defhydra hydra-smerge
 	(:color red :hint nil
 					:pre (smerge-mode 1))
@@ -482,6 +486,25 @@ Attempt to auto-_r_esolve
 	("q" nil :color blue))
 
 (bind-key "C-=" #'hydra-smerge/body 'smerge-mode-map)
+
+(require 'flyspell)
+(dolist (hook '(text-mode-hook))
+	(add-hook hook
+						(lambda ()
+							(flyspell-mode 1))))
+
+(dolist (hook '(prog-mode-hook))
+	(add-hook hook
+						(lambda ()
+							(flyspell-prog-mode))))
+
+;; Why not flyspell-buffer in text-mode-hook? because it takes forever
+;; in helpful-mode, and for some reason major-mode is set to org-mode
+;; when the text-mode-hook runs on helpful-mode (I have no idea why)
+(dolist (hook '(markdown-mode))
+	(add-hook hook
+						(lambda ()
+							(flyspell-buffer))))
 
 (when (file-exists-p "~/.emacs.d/git-packages/emc2.el")
 	(use-package emc2
