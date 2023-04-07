@@ -263,6 +263,10 @@
 (use-package typescript-mode
   :ensure t)
 
+(use-package web-mode
+	:ensure t)
+(add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
+
 (use-package csharp-mode
   :ensure t)
 
@@ -290,6 +294,7 @@
   (setq lsp-keymap-prefix "C-c l")
   :hook (;; replace XXX-mode with concrete major-mode(e. g. python-mode)
          (typescript-mode . lsp)
+				 (web-mode . lsp)
          ;; if you want which-key integration
          (lsp-mode . lsp-enable-which-key-integration))
   :commands lsp)
@@ -315,7 +320,8 @@
   :hook ((js-mode . tree-sitter-hl-mode)
 				 (sh-mode . tree-sitter-hl-mode)
 				 (c-mode . tree-sitter-hl-mode)
-				 (typescript-mode . tree-sitter-hl-mode)))
+				 (typescript-mode . tree-sitter-hl-mode)
+				 (web-mode . tree-sitter-hl-mode)))
 
 (use-package tree-sitter-langs
   :ensure t)
@@ -323,7 +329,9 @@
 (use-package prettier
   :ensure t
   :diminish prettier-mode
-	:hook ((typescript-mode . prettier-mode)))
+	:hook ((typescript-mode . prettier-mode)
+				 (js-mode . prettier-mode)
+				 (web-mode . prettier-mode)))
 
 
 (use-package eshell
@@ -395,6 +403,9 @@ string and a double-quoted string."
 
 ;; bind M-` to toggle-typescript-interpolated-quote in typescript-mode
 (add-hook 'typescript-mode-hook
+					(lambda ()
+						(local-set-key (kbd "M-`") 'toggle-typescript-interpolated-quote)))
+(add-hook 'web-mode
 					(lambda ()
 						(local-set-key (kbd "M-`") 'toggle-typescript-interpolated-quote)))
 
