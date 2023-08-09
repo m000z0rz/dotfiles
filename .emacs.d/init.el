@@ -519,4 +519,4 @@ Attempt to auto-_r_esolve
 (load "~/.emacs.d/magit-pipelines")
 
 ;; Change default font size
-(set-face-attribute 'default nil :height 110)
+;; (set-face-attribute 'default nil :height 110)
