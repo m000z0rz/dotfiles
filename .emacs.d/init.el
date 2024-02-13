@@ -134,13 +134,13 @@
 
 (use-package company
   :ensure t
-  :after lsp-mode
+  ;;:after lsp-mode
   :diminish company-mode
   :hook ((emacs-lisp-mode . company-mode))
   :bind (:map company-active-map
-							("<tab>" . company-complete-selection)
-							:map lsp-mode-map
-							("<tab>" . company-indent-or-complete-common)))
+							("<tab>" . company-complete-selection)))
+							;;:map lsp-mode-map
+							;;("<tab>" . company-indent-or-complete-common)))
 
 
 (use-package company-box
@@ -263,6 +263,9 @@
 (use-package typescript-mode
   :ensure t)
 
+(use-package rust-mode
+	:ensure t)
+
 (use-package web-mode
 	:ensure t)
 (add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
@@ -287,69 +290,88 @@
   :bind (:map projectile-mode-map
 							("C-c p" . projectile-command-map)))
 
-(use-package lsp-mode
-  :ensure t
-  :init
-  ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
-  (setq lsp-keymap-prefix "C-c l")
-  :hook (;; replace XXX-mode with concrete major-mode(e. g. python-mode)
-         (typescript-mode . lsp)
-				 (web-mode . lsp)
-         ;; if you want which-key integration
-         (lsp-mode . lsp-enable-which-key-integration))
-  :commands lsp)
+'(use-package lsp-mode
+   :ensure t
+   :init
+   ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
+   (setq lsp-keymap-prefix "C-c l")
+   :hook (;; replace XXX-mode with concrete major-mode(e. g. python-mode)
+					(typescript-mode . lsp)
+					(web-mode . lsp)
+					;; if you want which-key integration
+					(lsp-mode . lsp-enable-which-key-integration))
+   :commands lsp)
 
-(use-package lsp-treemacs
-  :disabled t
-  :ensure t)
+(use-package eglot
+	:ensure t
+	:hook (
+				 (typescript-mode . eglot-ensure)
+				 (web-mode . eglot-ensure)
+				 (csharp-mode . eglot-ensure))
+	:bind (:map eglot-mode-map
+							("C-c l r" . eglot-rename)
+							("C-c l a" . eglot-code-actions)
+							("C-c l t" . eglot-find-typeDefinition)
+							("C-c l i" . eglot-find-implementation)
+							("C-c l g" . xref-find-references) ;; Also M-?
+							))
 
-(use-package lsp-ivy
-  :ensure t
-  :bind (:map lsp-mode-map
-							("C-c i" . lsp-ivy-workspace-symbol)))
+(use-package paredit
+	:ensure t
+	:hook ((emacs-lisp-mode . paredit-mode)
+				 (lisp-data-mode . paredit-mode)))
 
-(use-package lsp-ui
-  :ensure t
-	:custom
-	(lsp-ui-doc-position 'at-point "Display glance doc (C-c l h g) near point"))
+'(use-package lsp-treemacs
+	 :disabled t
+	 :ensure t)
+
+'(use-package lsp-ivy
+	 :ensure t
+	 :bind (:map lsp-mode-map
+							 ("C-c i" . lsp-ivy-workspace-symbol)))
+
+'(use-package lsp-ui
+	 :ensure t
+	 :custom
+	 (lsp-ui-doc-position 'at-point "Display glance doc (C-c l h g) near point"))
 
 
 
 (use-package tree-sitter
-  :ensure t
-  :hook ((js-mode . tree-sitter-hl-mode)
+	:ensure t
+	:hook ((js-mode . tree-sitter-hl-mode)
 				 (sh-mode . tree-sitter-hl-mode)
 				 (c-mode . tree-sitter-hl-mode)
 				 (typescript-mode . tree-sitter-hl-mode)
 				 (web-mode . tree-sitter-hl-mode)))
 
 (use-package tree-sitter-langs
-  :ensure t)
+	:ensure t)
 
 (use-package prettier
-  :ensure t
-  :diminish prettier-mode
+	:ensure t
+	:diminish prettier-mode
 	:hook ((typescript-mode . prettier-mode)
 				 (js-mode . prettier-mode)
 				 (web-mode . prettier-mode)))
 
 
 (use-package eshell
-  :ensure t
-  :bind ("C-c s" . eshell))
+	:ensure t
+	:bind ("C-c s" . eshell))
 
 (use-package ample-theme
-  :ensure t)
+	:ensure t)
 
 ;; for completion with platformio-mode?
 (use-package ccls
-  :disabled t
-  :ensure t)
+	:disabled t
+	:ensure t)
 
 (use-package platformio-mode
 	:if (executable-find "pio")
-  :hook (c++-mode . (lambda ()
-											(lsp-deferred)
+	:hook (c++-mode . (lambda ()
+											'(lsp-deferred)
 											(platformio-conditionally-enable)))) ;; should enable only if a platformio.ini is present
 
 (use-package flycheck
@@ -379,31 +401,31 @@
 ;; https://stackoverflow.com/questions/15580913/is-there-a-way-to-toggle-a-string-between-single-and-double-quotes-in-emacs
 ;; TODO handle escaping "/`
 (defun toggle-typescript-interpolated-quote ()
-  "Toggle the string containing point between an interpolated
+	"Toggle the string containing point between an interpolated
 string and a double-quoted string."
-  (interactive)
-  (save-excursion
-    (let* ((syn (syntax-ppss))
+	(interactive)
+	(save-excursion
+		(let* ((syn (syntax-ppss))
 					 (in-string (nth 3 syn)))
-      (when (not in-string)
-        (user-error "Not in a string"))
-      (let* ((string-start (nth 8 syn))
-             (string-end (save-excursion
+			(when (not in-string)
+				(user-error "Not in a string"))
+			(let* ((string-start (nth 8 syn))
+						 (string-end (save-excursion
 													 (goto-char string-start)
 													 (forward-sexp)
 													 (1- (point))))
-             (old-quote (char-after string-start))
+						 (old-quote (char-after string-start))
 						 (new-quote (if (eq old-quote ?`) ?\" ?`)))
-        (dolist (p (list string-start string-end))
-          (goto-char p)
-          (delete-char 1)
-          (insert-char new-quote))))))
+				(dolist (p (list string-start string-end))
+					(goto-char p)
+					(delete-char 1)
+					(insert-char new-quote))))))
 
 ;; if you've got a long mapping, the following will be more expressive
 (ignore
  (let ((mapping '((?` . ?\")
-                  (?\" . ?`))))
-   (cdr (assq ?` mapping))))
+									(?\" . ?`))))
+	 (cdr (assq ?` mapping))))
 
 
 ;; bind M-` to toggle-typescript-interpolated-quote in typescript-mode
@@ -424,10 +446,10 @@ string and a double-quoted string."
 
 ;; https://blog.sumtypeofway.com/posts/emacs-config.html
 (defun pt/eol-then-newline ()
-  "Go to end of line, then newline-and-indent."
-  (interactive)
-  (move-end-of-line nil)
-  (newline-and-indent))
+	"Go to end of line, then newline-and-indent."
+	(interactive)
+	(move-end-of-line nil)
+	(newline-and-indent))
 
 ;; replace C-M-o which previously was just newline while keeping point in place
 (bind-key "C-M-<return>" #'pt/eol-then-newline)
@@ -442,8 +464,8 @@ string and a double-quoted string."
 ;;    (delete-region (point) (progn (skip-chars-forward " \t") (point)))))
 
 (defun kill-line--cleanup-whitespace (&optional arg)
-  "Cleanup whitespace after killing lines"
-  (if (not (bolp))
+	"Cleanup whitespace after killing lines"
+	(if (not (bolp))
 			(delete-region (point) (progn (skip-chars-forward " \t") (point)))))
 
 (advice-add 'kill-line :after #'kill-line--cleanup-whitespace)
