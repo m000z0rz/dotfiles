@@ -93,7 +93,9 @@
  save-interprogram-paste-before-kill t
  ;;mark-even-if-inactive nil
  kill-whole-line t ;; Let C-k delete the entire line
- confirm-kill-processes nil)
+ confirm-kill-processes nil
+ save-interprogram-paste-before-kill t)
+
 
 ;; always utf-8 by default
 (set-charset-priority 'unicode)
@@ -541,4 +543,68 @@ Attempt to auto-_r_esolve
 (load "~/.emacs.d/magit-pipelines")
 
 ;; Change default font size
-;; (set-face-attribute 'default nil :height 110)
+;;(set-face-attribute 'default nil :height 110)
+
+(use-package mu4e
+	:load-path "/usr/local/share/emacs/site-lisp/mu4e"
+	;;:load-path "~/git/mu/mu4e"
+  :bind (("C-<f12>" . mu4e)
+         ("s-e" . mu4e))
+  :custom
+  (mu4e-headers-visible-flags
+   '(draft flagged new passed replied trashed attach encrypted signed list))
+  (mu4e-split-view 'single-window)
+  (mu4e-read-option-use-builtin nil)
+  (mu4e-completing-read-function 'completing-read)
+
+  :config
+  (setq mail-user-agent 'mu4e-user-agent)
+
+  (setq mu4e-drafts-folder "/gmail/[Gmail]/Drafts")
+  (setq mu4e-sent-folder   "/gmail/[Gmail]/Sent Mail")
+  (setq mu4e-trash-folder  "/gmail/[Gmail]/Trash")
+  (setq mu4e-refile-folder "/gmail/archive")
+  ;; don't save message to Sent Messages, Gmail/IMAP takes care of this
+  (setq mu4e-sent-messages-behavior 'delete)
+
+  ;; setup some handy shortcuts
+  ;; you can quickly switch to your Inbox -- press ``ji''
+  ;; then, when you want archive some messages, move them to
+  ;; the 'All Mail' folder by pressing ``ma''.
+
+  (setq mu4e-maildir-shortcuts
+        '((:maildir "/gmail/INBOX"              :key ?i)
+          (:maildir "/gmail/receipt"            :key ?r)
+          (:maildir "/gmail/[Gmail]/Sent Mail"  :key ?s)))
+  ;; allow for updating mail using 'U' in the main view:
+  (setq mu4e-get-mail-command "get-mail")
+
+
+  ;; something about ourselves
+  (setq
+   user-mail-address "m000z0rz@gmail.com"
+   user-full-name  "Brian Baker"
+   mu4e-compose-signature "Brian Baker")
+
+  ;; sending mail -- replace USERNAME with your gmail username
+  ;; also, make sure the gnutls command line utils are installed
+  ;; package 'gnutls-bin' in Debian/Ubuntu
+
+  (require 'smtpmail)
+  (setq message-send-mail-function 'smtpmail-send-it
+        starttls-use-gnutls t
+        ;;smtpmail-starttls-credentials '(("smtp.gmail.com" 587 nil nil))
+        smtpmail-stream-type 'ssl
+        smtpmail-auth-credentials
+        (expand-file-name "~/.authinfo")
+        ;; '(("smtp.gmail.com" 587 "allred.sean@gmail.com" nil))
+        smtpmail-default-smtp-server "smtp.gmail.com"
+        smtpmail-smtp-server "smtp.gmail.com"
+        smtpmail-smtp-service 465)
+
+  ;; don't keep message buffers around
+  (setq message-kill-buffer-on-exit t)
+
+  ;; check the mail every ten minutes
+  (setq my/mu4e-timer
+        (run-at-time 0 (* 60 10) #'mu4e-update-mail-and-index t)))
