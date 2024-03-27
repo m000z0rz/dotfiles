@@ -27,7 +27,11 @@
   (setq-default major-mode 'org-mode
 								tab-width 2)
   (when (file-readable-p custom-file)
-    (load-file custom-file)))
+    (load-file custom-file))
+	:custom
+	(display-buffer-alist
+	 `((,(rx bos "*difftastic")
+			(display-buffer-at-bottom)))))
 
 (setq backup-directory-alist '(("." . "~/.emacs.d/backup"))
 			backup-by-copying t				 ; Don't de-link hard links
@@ -283,6 +287,19 @@
 
 (use-package fish-mode
   :ensure t)
+
+(use-package difftastic
+  :demand t
+  :bind (:map magit-blame-read-only-mode-map
+              ("D" . difftastic-magit-show)
+              ("S" . difftastic-magit-show))
+  :config
+  (eval-after-load 'magit-diff
+    '(transient-append-suffix 'magit-diff '(-1 -1)
+       [("D" "Difftastic diff (dwim)" difftastic-magit-diff)
+        ("S" "Difftastic show" difftastic-magit-show)]))
+  :custom
+  (difftastic-requested-window-width-function #'frame-width))
 
 (use-package projectile
   :ensure t
