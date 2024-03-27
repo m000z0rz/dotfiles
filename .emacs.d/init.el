@@ -33,6 +33,9 @@
 	 `((,(rx bos "*difftastic")
 			(display-buffer-at-bottom)))))
 
+(global-set-key (kbd "C-c c") #'org-capture)
+(global-set-key (kbd "C-c a") #'org-agenda)
+
 (setq backup-directory-alist '(("." . "~/.emacs.d/backup"))
 			backup-by-copying t				 ; Don't de-link hard links
 			version-control t					 ; Use version numbers on backups
