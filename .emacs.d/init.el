@@ -210,10 +210,10 @@
   (tool-bar-mode -1))
 
 ;; make it easier to tell which buffer is active
-(use-package dimmer
-  :ensure t
-  :custom (dimmer-fraction 0.1)
-  :config (dimmer-mode))
+;; (use-package dimmer
+;;   :ensure t
+;;   :custom (dimmer-fraction 0.1)
+;;   :config (dimmer-mode))
 
 
 (show-paren-mode)
