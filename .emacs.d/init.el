@@ -138,23 +138,34 @@
   :hook ((emacs-lisp-mode . aggressive-indent-mode)))
 ;;(typescript-mode . aggressive-indent-mode)))
 
-(use-package company
-  :ensure t
-  ;;:after lsp-mode
-  :diminish company-mode
-  :hook ((emacs-lisp-mode . company-mode))
-  :bind (:map company-active-map
-							("<tab>" . company-complete-selection)))
-							;;:map lsp-mode-map
-							;;("<tab>" . company-indent-or-complete-common)))
+;; (use-package company
+;;   :ensure t
+;;   ;;:after lsp-mode
+;;   :diminish company-mode
+;;   :hook ((emacs-lisp-mode . company-mode))
+;;   :bind (:map company-active-map
+;; 							("<tab>" . company-complete-selection)))
+;; 							;;:map lsp-mode-map
+;; 							;;("<tab>" . company-indent-or-complete-common)))
 
 
-(use-package company-box
-  :ensure t
-  :after company
-  :diminish company-box-mode
-  :hook (company-mode . company-box-mode))
+;; (use-package company-box
+;;   :ensure t
+;;   :after company
+;;   :diminish company-box-mode
+;;   :hook (company-mode . company-box-mode))
 
+(use-package corfu
+	:ensure t
+	;; Enable Corfu only for certain modes.
+
+																				;:hook ((prog-mode . corfu-mode)
+	;;(shell-mode . corfu-mode)
+	;;(eshell-mode . corfu-mode)
+
+	:init (global-corfu-mode)
+
+	)
 
 (use-package magit
   :ensure t
