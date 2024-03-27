@@ -272,6 +272,8 @@
 (use-package rust-mode
 	:ensure t)
 
+(setq rust-format-on-save t)
+
 (use-package web-mode
 	:ensure t)
 (add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
@@ -326,7 +328,9 @@
 	:hook (
 				 (typescript-mode . eglot-ensure)
 				 (web-mode . eglot-ensure)
-				 (csharp-mode . eglot-ensure))
+				 (csharp-mode . eglot-ensure)
+				 (rust-mode . eglot-ensure))
+	;;				 (rust-mode . eglot-ensure))
 	:bind (:map eglot-mode-map
 							("C-c l r" . eglot-rename)
 							("C-c l a" . eglot-code-actions)
@@ -334,6 +338,10 @@
 							("C-c l i" . eglot-find-implementation)
 							("C-c l g" . xref-find-references) ;; Also M-?
 							))
+
+;; (add-to-list 'eglot-server-programs
+;; 						 '((rust-ts-mode rust-mode) .
+;; 							 ("rust-analyzer" :initializationOptions (:check (:command "clippy")))))
 
 (use-package paredit
 	:ensure t
